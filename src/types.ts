@@ -15,7 +15,7 @@ type NotebookMetadata = { // TODO: verify these
         file_extension?: string,
         codemirror_mode?: {
             name: string,
-            version: string,
+            version: string | number,
         },
         mimetype?: string,
         nbconvert_exporter?: string,
@@ -23,23 +23,26 @@ type NotebookMetadata = { // TODO: verify these
     }
 }
 
-type NotebookCell = MarkdownCell | CodeCell | RawCell;
+export type NotebookCell = MarkdownCell | CodeCell | RawCell;
 
-type MarkdownCell = {
+interface BaseCell {
+    id: string,
+    source: string | string[],
+}
+
+interface MarkdownCell extends BaseCell {
     cell_type: 'markdown',
     metadata: {},
-    source: string,
     attachments?: Record<string, Record<string, string>>
 }
 
-type CodeCell = {
+interface CodeCell extends BaseCell {
     cell_type: 'code',
     metadata: { // TODO
         collapsed?: boolean,
         scrolled?: boolean | 'auto',
     },
     execution_count: number | null,
-    source: string,
     outputs: CodeCellOutput[]
 }
 
@@ -94,10 +97,9 @@ type CodeCellErrorOutput = {
     traceback: string[]
 }
 
-type RawCell = {
+interface RawCell extends BaseCell {
     cell_type: 'raw',
     metadata: {
         format: string
-    },
-    source: string,
+    }
 }
