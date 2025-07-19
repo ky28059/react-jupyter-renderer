@@ -36,7 +36,7 @@ interface MarkdownCell extends BaseCell {
     attachments?: Record<string, Record<string, string>>
 }
 
-interface CodeCell extends BaseCell {
+export interface CodeCell extends BaseCell {
     cell_type: 'code',
     metadata: { // TODO
         collapsed?: boolean,

@@ -1,5 +1,5 @@
 import type { Notebook } from './types.ts';
-import JupyterNotebookCell from './JupyterNotebookCell.tsx';
+import JupyterNotebookCodeCell from './JupyterNotebookCodeCell.tsx';
 
 
 type JupyterNotebookProps = {
@@ -8,13 +8,17 @@ type JupyterNotebookProps = {
 
 export default function JupyterNotebook(props: JupyterNotebookProps) {
     return (
-        <div>
-            {props.notebook.cells.map((cell) => (
-                <JupyterNotebookCell
-                    cell={cell}
-                    key={cell.id}
-                />
-            ))}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+            {props.notebook.cells.map((cell, i) => {
+                if (cell.cell_type === 'code') return (
+                    <JupyterNotebookCodeCell
+                        cell={cell}
+                        key={i}
+                    />
+                );
+
+                return null;
+            })}
         </div>
     )
 }
