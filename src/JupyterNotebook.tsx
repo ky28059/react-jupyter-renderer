@@ -1,5 +1,8 @@
 import type { Notebook } from './types.ts';
+
+// Components
 import JupyterNotebookCodeCell from './JupyterNotebookCodeCell.tsx';
+import JupyterNotebookMarkdownCell from './JupyterNotebookMarkdownCell.tsx';
 
 
 type JupyterNotebookProps = {
@@ -12,6 +15,13 @@ export default function JupyterNotebook(props: JupyterNotebookProps) {
             {props.notebook.cells.map((cell, i) => {
                 if (cell.cell_type === 'code') return (
                     <JupyterNotebookCodeCell
+                        cell={cell}
+                        key={i}
+                    />
+                );
+
+                if (cell.cell_type === 'markdown') return (
+                    <JupyterNotebookMarkdownCell
                         cell={cell}
                         key={i}
                     />

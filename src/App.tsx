@@ -7,9 +7,9 @@ export default function App() {
                 notebook={{
                     "metadata": {
                         "kernelspec": {
-                            "name": "python",
                             "display_name": "Python (Pyodide)",
-                            "language": "python"
+                            "language": "python",
+                            "name": "python"
                         },
                         "language_info": {
                             "codemirror_mode": {
@@ -28,9 +28,41 @@ export default function App() {
                     "nbformat": 4,
                     "cells": [
                         {
-                            "id": "17518e2f-7306-434f-8f0c-57ab66226038",
+                            "id": "a35eeb9f-df70-4ab1-a243-2d2025888eb0",
+                            "cell_type": "markdown",
+                            "source": "# Introduction to the JupyterLab and Jupyter Notebooks\n\nThis is a short introduction to two of the flagship tools created by [the Jupyter Community](https://jupyter.org).\n\n> **⚠️Experimental!⚠️**: This is an experimental interface provided by the [JupyterLite project](https://jupyterlite.readthedocs.io/en/latest/). It embeds an entire JupyterLab interface, with many popular packages for scientific computing, in your browser. There may be minor differences in behavior between JupyterLite and the JupyterLab you install locally. You may also encounter some bugs or unexpected behavior. To report any issues, or to get involved with the JupyterLite project, see [the JupyterLite repository](https://github.com/jupyterlite/jupyterlite/issues?q=is%3Aissue+is%3Aopen+sort%3Aupdated-desc).\n\n## JupyterLab 🧪\n\n**JupyterLab** is a next-generation web-based user interface for Project Jupyter. It enables you to work with documents and activities such as Jupyter notebooks, text editors, terminals, and custom components in a flexible, integrated, and extensible manner. It is the interface that you're looking at right now.\n\n**For an overview of the JupyterLab interface**, see the **JupyterLab Welcome Tour** on this page, by going to `Help -> Welcome Tour` and following the prompts.\n\n> **See Also**: For a more in-depth tour of JupyterLab with a full environment that runs in the cloud, see [the JupyterLab introduction on Binder](https://mybinder.org/v2/gh/jupyterlab/jupyterlab-demo/HEAD?urlpath=lab/tree/demo).\n\n## Jupyter Notebooks 📓\n\n**Jupyter Notebooks** are a community standard for communicating and performing interactive computing. They are a document that blends computations, outputs, explanatory text, mathematics, images, and rich media representations of objects.\n\nJupyterLab is one interface used to create and interact with Jupyter Notebooks.\n\n**For an overview of Jupyter Notebooks**, see the **JupyterLab Welcome Tour** on this page, by going to `Help -> Notebook Tour` and following the prompts.\n\n> **See Also**: For a more in-depth tour of Jupyter Notebooks and the Classic Jupyter Notebook interface, see [the Jupyter Notebook IPython tutorial on Binder](https://mybinder.org/v2/gh/ipython/ipython-in-depth/HEAD?urlpath=tree/binder/Index.ipynb).\n\n## An example: visualizing data in the notebook ✨\n\nBelow is an example of a code cell. We'll visualize some simple data using two popular packages in Python. We'll use [NumPy](https://numpy.org/) to create some random data, and [Matplotlib](https://matplotlib.org) to visualize it.\n\nNote how the code and the results of running the code are bundled together.",
+                            "metadata": {}
+                        },
+                        {
+                            "id": "5ba26c46-fd0b-4484-b663-ae7c312f307a",
                             "cell_type": "code",
-                            "source": "print(a)\nb = 3",
+                            "source": "a = 1",
+                            "metadata": {
+                                "trusted": true
+                            },
+                            "outputs": [],
+                            "execution_count": 10
+                        },
+                        {
+                            "id": "fe55883a-6887-43dd-9498-5333a51799e2",
+                            "cell_type": "code",
+                            "source": "print(a)\na = 5",
+                            "metadata": {
+                                "trusted": true
+                            },
+                            "outputs": [
+                                {
+                                    "name": "stdout",
+                                    "output_type": "stream",
+                                    "text": "1\n"
+                                }
+                            ],
+                            "execution_count": 11
+                        },
+                        {
+                            "id": "97f3f0ce-a346-4bdb-b00a-d11631ef2b1a",
+                            "cell_type": "code",
+                            "source": "print(a)\na = 3",
                             "metadata": {
                                 "trusted": true
                             },
@@ -41,20 +73,10 @@ export default function App() {
                                     "text": "5\n"
                                 }
                             ],
-                            "execution_count": 4
+                            "execution_count": 12
                         },
                         {
-                            "id": "f98220d8-23c9-4c74-bd85-2ce28326fe4a",
-                            "cell_type": "code",
-                            "source": "a = 5",
-                            "metadata": {
-                                "trusted": true
-                            },
-                            "outputs": [],
-                            "execution_count": 3
-                        },
-                        {
-                            "id": "8ea50990-16f1-40df-af18-8b8e0ea67713",
+                            "id": "9aae024b-619f-491f-af5c-a6cf750a2736",
                             "cell_type": "code",
                             "source": "print(b)",
                             "metadata": {
@@ -62,15 +84,21 @@ export default function App() {
                             },
                             "outputs": [
                                 {
-                                    "name": "stdout",
-                                    "output_type": "stream",
-                                    "text": "3\n"
+                                    "ename": "<class 'NameError'>",
+                                    "evalue": "name 'b' is not defined",
+                                    "traceback": [
+                                        "\u001b[0;31m---------------------------------------------------------------------------\u001b[0m",
+                                        "\u001b[0;31mNameError\u001b[0m                                 Traceback (most recent call last)",
+                                        "Cell \u001b[0;32mIn[13], line 1\u001b[0m\n\u001b[0;32m----> 1\u001b[0m \u001b[38;5;28mprint\u001b[39m(\u001b[43mb\u001b[49m)\n",
+                                        "\u001b[0;31mNameError\u001b[0m: name 'b' is not defined"
+                                    ],
+                                    "output_type": "error"
                                 }
                             ],
-                            "execution_count": 5
+                            "execution_count": 13
                         },
                         {
-                            "id": "a7c23cb0-1c23-4b4e-9c29-0b2ee4d22823",
+                            "id": "786f00b4-a598-4bf2-aadd-d99373f05bd5",
                             "cell_type": "code",
                             "source": "",
                             "metadata": {

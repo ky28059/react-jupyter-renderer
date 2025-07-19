@@ -30,7 +30,7 @@ interface BaseCell {
     source: string | string[],
 }
 
-interface MarkdownCell extends BaseCell {
+export interface MarkdownCell extends BaseCell {
     cell_type: 'markdown',
     metadata: {},
     attachments?: Record<string, Record<string, string>>
@@ -46,7 +46,7 @@ export interface CodeCell extends BaseCell {
     outputs: CodeCellOutput[]
 }
 
-type CodeCellOutput = CodeCellStreamOutput
+export type CodeCellOutput = CodeCellStreamOutput
     | CodeCellDisplayDataOutput
     | CodeCellExecuteResultOutput
     | CodeCellErrorOutput;
