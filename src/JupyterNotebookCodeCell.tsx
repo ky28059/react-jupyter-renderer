@@ -3,7 +3,10 @@ import type { CodeCell, CodeCellOutput as CodeCellOutputData } from './types.ts'
 
 
 type JupyterNotebookCodeCellProps = {
-    cell: CodeCell
+    cell: CodeCell,
+
+    streamOutputClassName?: string,
+    errorOutputClassName?: string,
 }
 
 export default function JupyterNotebookCodeCell(props: JupyterNotebookCodeCellProps) {
@@ -38,22 +41,39 @@ export default function JupyterNotebookCodeCell(props: JupyterNotebookCodeCellPr
                 </pre>
 
                 {props.cell.outputs.map((output, i) => (
-                    <CodeCellOutput output={output} key={i} />
+                    <CodeCellOutput
+                        output={output}
+                        streamOutputClassName={props.streamOutputClassName}
+                        errorOutputClassName={props.errorOutputClassName}
+                        key={i}
+                    />
                 ))}
             </div>
         </div>
     )
 }
 
-function CodeCellOutput(props: { output: CodeCellOutputData }) {
+type CodeCellOutputProps = {
+    output: CodeCellOutputData,
+    streamOutputClassName?: string,
+    errorOutputClassName?: string,
+}
+
+function CodeCellOutput(props: CodeCellOutputProps) {
     if (props.output.output_type === 'stream') return (
-        <pre style={{ margin: '0.25rem 0.5rem' }}>
+        <pre
+            style={{ margin: '0.25rem 0.5rem', overflowX: 'auto' }}
+            className={props.streamOutputClassName}
+        >
             {props.output.text}
         </pre>
     )
 
     if (props.output.output_type === 'error') return (
-        <pre style={{ padding: '0.25rem 0.5rem', overflowX: 'auto', backgroundColor: 'rgb(255 0 0 / 0.2)' }}>
+        <pre
+            style={{ padding: '0.25rem 0.5rem', overflowX: 'auto', backgroundColor: 'rgb(255 0 0 / 0.2)' }}
+            className={props.errorOutputClassName}
+        >
             {props.output.traceback.join('')}
         </pre>
     )

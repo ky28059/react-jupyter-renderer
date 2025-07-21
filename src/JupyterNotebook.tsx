@@ -7,6 +7,9 @@ import JupyterNotebookMarkdownCell from './JupyterNotebookMarkdownCell.tsx';
 
 type JupyterNotebookProps = {
     notebook: Notebook,
+
+    streamOutputClassName?: string,
+    errorOutputClassName?: string,
 }
 
 export default function JupyterNotebook(props: JupyterNotebookProps) {
@@ -16,6 +19,8 @@ export default function JupyterNotebook(props: JupyterNotebookProps) {
                 if (cell.cell_type === 'code') return (
                     <JupyterNotebookCodeCell
                         cell={cell}
+                        streamOutputClassName={props.streamOutputClassName}
+                        errorOutputClassName={props.errorOutputClassName}
                         key={i}
                     />
                 );
