@@ -2,14 +2,22 @@ import { JupyterNotebook } from '../../src/index';
 
 export default function Home() {
     return (
-        <div className="container py-20 mx-auto">
+        <main className="container py-20 px-16 mx-auto">
+            <h1 className="-ml-2 text-4xl font-bold mb-3">
+                @ky28059/react-jupyter-renderer
+            </h1>
+            <p className="mb-6">
+                An interactive Jupyter notebook renderer in React based on [...]
+            </p>
+
             <JupyterNotebook
                 notebook={notebook}
-                wrapperClassName="border border-black/20 rounded max-h-[30rem] overflow-y-auto gap-4 text-sm"
-                streamOutputClassName="px-2 py-1 overflow-x-auto"
-                errorOutputClassName="px-2 py-1 overflow-x-auto bg-red-500/20"
+                wrapperClassName="py-6 border border-black/20 rounded-lg max-h-[30rem] overflow-y-auto gap-4 text-sm shadow-xl"
+                markdownClassName="markdown"
+                streamOutputClassName="mt-2 px-2 py-1 overflow-x-auto"
+                errorOutputClassName="mt-2 px-2 py-1 overflow-x-auto bg-red-500/20"
             />
-        </div>
+        </main>
     );
 }
 

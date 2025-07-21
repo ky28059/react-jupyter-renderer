@@ -11,6 +11,7 @@ type JupyterNotebookProps = {
     notebook: Notebook,
 
     wrapperClassName?: string,
+    markdownClassName?: string,
     streamOutputClassName?: string,
     errorOutputClassName?: string,
 }
@@ -34,6 +35,7 @@ export default function JupyterNotebook(props: JupyterNotebookProps) {
                 if (cell.cell_type === 'markdown') return (
                     <JupyterNotebookMarkdownCell
                         cell={cell}
+                        markdownClassName={props.markdownClassName}
                         key={i}
                     />
                 );
