@@ -61,19 +61,13 @@ type CodeCellOutputProps = {
 
 function CodeCellOutput(props: CodeCellOutputProps) {
     if (props.output.output_type === 'stream') return (
-        <pre
-            style={{ margin: '0.25rem 0.5rem', overflowX: 'auto' }}
-            className={props.streamOutputClassName}
-        >
+        <pre className={props.streamOutputClassName}>
             {props.output.text}
         </pre>
     )
 
     if (props.output.output_type === 'error') return (
-        <pre
-            style={{ padding: '0.25rem 0.5rem', overflowX: 'auto', backgroundColor: 'rgb(255 0 0 / 0.2)' }}
-            className={props.errorOutputClassName}
-        >
+        <pre className={props.errorOutputClassName}>
             {props.output.traceback.join('')}
         </pre>
     )

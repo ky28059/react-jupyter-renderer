@@ -1,3 +1,5 @@
+'use client'
+
 import type { Notebook } from './types.ts';
 
 // Components
@@ -8,13 +10,17 @@ import JupyterNotebookMarkdownCell from './JupyterNotebookMarkdownCell.tsx';
 type JupyterNotebookProps = {
     notebook: Notebook,
 
+    wrapperClassName?: string,
     streamOutputClassName?: string,
     errorOutputClassName?: string,
 }
 
 export default function JupyterNotebook(props: JupyterNotebookProps) {
     return (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+        <div
+            style={{ display: 'flex', flexDirection: 'column' }}
+            className={props.wrapperClassName}
+        >
             {props.notebook.cells.map((cell, i) => {
                 if (cell.cell_type === 'code') return (
                     <JupyterNotebookCodeCell
