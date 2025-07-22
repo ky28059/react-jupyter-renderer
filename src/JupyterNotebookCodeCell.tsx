@@ -76,5 +76,19 @@ function CodeCellOutput(props: CodeCellOutputProps) {
         </pre>
     )
 
+    if (props.output.output_type === 'execute_result' || props.output.output_type === 'display_data') {
+        const mimes = props.output.data;
+
+        // Image output
+        if (mimes['image/png']) return (
+            <img
+                src={`data:image/png;base64,${mimes['image/png']}`}
+                alt={mimes['text/plain']}
+            />
+        )
+
+        return null;
+    }
+
     return null;
 }
