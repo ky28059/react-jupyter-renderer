@@ -19,7 +19,7 @@ type JupyterNotebookProps = {
 export default function JupyterNotebook(props: JupyterNotebookProps) {
     return (
         <div
-            style={{ display: 'flex', flexDirection: 'column' }}
+            style={{ display: 'flex', flexDirection: 'column', position: 'relative' }}
             className={props.wrapperClassName}
         >
             {props.notebook.cells.map((cell, i) => {

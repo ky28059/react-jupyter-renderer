@@ -87,6 +87,13 @@ function CodeCellOutput(props: CodeCellOutputProps) {
             />
         )
 
+        // Fall back to `text/plain` output
+        if (mimes['text/plain']) return (
+            <pre className={props.streamOutputClassName}>
+                {mimes['text/plain']}
+            </pre>
+        )
+
         return null;
     }
 
