@@ -60,8 +60,12 @@ type CodeCellOutputProps = {
 }
 
 function CodeCellOutput(props: CodeCellOutputProps) {
-    if (props.output.output_type === 'stream') return (
+    if (props.output.output_type === 'stream') return props.output.name === 'stdout' ? (
         <pre className={props.streamOutputClassName}>
+            {props.output.text}
+        </pre>
+    ) : (
+        <pre className={props.errorOutputClassName}>
             {props.output.text}
         </pre>
     )
