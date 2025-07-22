@@ -1,4 +1,8 @@
 import { useState } from 'react';
+import Editor from 'react-simple-code-editor';
+import { highlight, languages } from 'prismjs/components/prism-core';
+import 'prismjs/components/prism-python';
+
 import type { CodeCell, CodeCellOutput as CodeCellOutputData } from './types.ts';
 
 
@@ -26,19 +30,23 @@ export default function JupyterNotebookCodeCell(props: JupyterNotebookCodeCellPr
                 [{props.cell.execution_count ?? ' '}]:
             </div>
             <div style={{ width: '100%' }}>
-                <pre
-                    style={{
-                        margin: 0,
-                        background: '#eee',
-                        width: '100%',
-                        padding: '0.5rem 1rem',
-                        boxSizing: 'border-box'
+                <Editor
+                    value={code}
+                    onValueChange={(code) => setCode(code)}
+                    highlight={(code) => highlight(code, languages.python)}
+                    padding={{
+                        top: '0.5rem',
+                        bottom: '0.5rem',
+                        left: '1rem',
+                        right: '1rem',
                     }}
-                    contentEditable
-                    onBlur={(e) => setCode(e.currentTarget.innerText)}
+                    style={{
+                        fontFamily: '"Fira code", "Fira Mono", monospace',
+                        background: 'rgb(245 245 245)'
+                    }}
                 >
                     {code}
-                </pre>
+                </Editor>
 
                 {props.cell.outputs.map((output, i) => (
                     <CodeCellOutput
@@ -87,7 +95,7 @@ function CodeCellOutput(props: CodeCellOutputProps) {
             />
         )
 
-        // Fall back to `text/plain` output
+        // If nothing else matches, fall back to `text/plain` output.
         if (mimes['text/plain']) return (
             <pre className={props.streamOutputClassName}>
                 {mimes['text/plain']}
