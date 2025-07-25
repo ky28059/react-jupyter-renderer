@@ -12,6 +12,7 @@ type JupyterNotebookProps = {
 
     wrapperClassName?: string,
     markdownClassName?: string,
+    codeEditorClassName?: string,
     streamOutputClassName?: string,
     errorOutputClassName?: string,
 }
@@ -26,6 +27,7 @@ export default function JupyterNotebook(props: JupyterNotebookProps) {
                 if (cell.cell_type === 'code') return (
                     <JupyterNotebookCodeCell
                         cell={cell}
+                        codeEditorClassName={props.codeEditorClassName}
                         streamOutputClassName={props.streamOutputClassName}
                         errorOutputClassName={props.errorOutputClassName}
                         key={i}

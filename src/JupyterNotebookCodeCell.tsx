@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import Editor from 'react-simple-code-editor';
-import { highlight, languages } from 'prismjs/components/prism-core';
+import { highlight, languages } from 'prismjs';
 import 'prismjs/components/prism-python';
 
 import type { CodeCell, CodeCellOutput as CodeCellOutputData } from './types.ts';
@@ -9,6 +9,7 @@ import type { CodeCell, CodeCellOutput as CodeCellOutputData } from './types.ts'
 type JupyterNotebookCodeCellProps = {
     cell: CodeCell,
 
+    codeEditorClassName?: string,
     streamOutputClassName?: string,
     errorOutputClassName?: string,
 }
@@ -33,17 +34,15 @@ export default function JupyterNotebookCodeCell(props: JupyterNotebookCodeCellPr
                 <Editor
                     value={code}
                     onValueChange={(code) => setCode(code)}
-                    highlight={(code) => highlight(code, languages.python)}
+                    highlight={(code) => highlight(code, languages.python, 'python')}
                     padding={{
                         top: '0.5rem',
                         bottom: '0.5rem',
                         left: '1rem',
                         right: '1rem',
                     }}
-                    style={{
-                        fontFamily: '"Fira code", "Fira Mono", monospace',
-                        background: 'rgb(245 245 245)'
-                    }}
+                    style={{ fontFamily: '"Fira code", "Fira Mono", monospace' }}
+                    className={props.codeEditorClassName}
                 >
                     {code}
                 </Editor>

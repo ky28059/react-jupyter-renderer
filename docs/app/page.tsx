@@ -16,6 +16,7 @@ export default function Home() {
                 notebook={lorenz}
                 wrapperClassName="py-6 border border-black/20 rounded-lg h-[36rem] overflow-y-auto gap-4 text-sm shadow-xl"
                 markdownClassName="markdown mb-4"
+                codeEditorClassName="mb-2 border border-black/10 bg-[rgb(245_245_245)]"
                 streamOutputClassName="mt-2 px-2 py-1 overflow-x-auto"
                 errorOutputClassName="mt-2 px-2 py-1 overflow-x-auto bg-red-500/20"
             />
