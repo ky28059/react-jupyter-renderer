@@ -1,4 +1,4 @@
-import { JupyterNotebook } from '../../src/index';
+import { JupyterNotebook } from '@ky28059/react-jupyter-renderer';
 import { lorenz } from '@/app/notebooks';
 
 

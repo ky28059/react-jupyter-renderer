@@ -26,6 +26,9 @@ export default defineConfig({
         sourcemap: true,
         emptyOutDir: true
     },
+    worker: {
+        format: 'es'
+    },
     plugins: [
         react(),
         dts({ // https://stackoverflow.com/a/78825198

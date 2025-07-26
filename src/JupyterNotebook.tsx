@@ -1,10 +1,15 @@
 'use client'
 
-import type { Notebook } from './types.ts';
+import { useEffect, useState } from 'react';
+import PyodideWorker from './pyodideWorker.mjs?worker&inline';
 
 // Components
-import JupyterNotebookCodeCell from './JupyterNotebookCodeCell.tsx';
-import JupyterNotebookMarkdownCell from './JupyterNotebookMarkdownCell.tsx';
+import JupyterNotebookCodeCell from './JupyterNotebookCodeCell';
+import JupyterNotebookMarkdownCell from './JupyterNotebookMarkdownCell';
+
+// Utils
+import type { Notebook } from './types.ts';
+import { sendAndReceiveResponse } from './pyodideWorkerClient';
 
 
 type JupyterNotebookProps = {
@@ -18,6 +23,26 @@ type JupyterNotebookProps = {
 }
 
 export default function JupyterNotebook(props: JupyterNotebookProps) {
+    const [/* pyodide */, /* setPyodide */] = useState<null>(null);
+
+    useEffect(() => {
+        async function loadPyodide() {
+            const worker = new PyodideWorker();
+            console.log(worker);
+
+            console.log(await sendAndReceiveResponse(worker, {
+                context: {},
+                python: 'a = 5'
+            }));
+            console.log(await sendAndReceiveResponse(worker, {
+                context: {},
+                python: 'a'
+            }));
+        }
+
+        void loadPyodide();
+    }, []);
+
     return (
         <div
             style={{ position: 'relative' }}
