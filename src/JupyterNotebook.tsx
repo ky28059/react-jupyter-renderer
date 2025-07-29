@@ -9,7 +9,6 @@ import JupyterNotebookMarkdownCell from './JupyterNotebookMarkdownCell';
 
 // Utils
 import type { Notebook } from './types.ts';
-import { sendAndReceiveResponse } from './pyodideWorkerClient';
 
 
 type JupyterNotebookProps = {
@@ -30,14 +29,16 @@ export default function JupyterNotebook(props: JupyterNotebookProps) {
             const worker = new PyodideWorker();
             console.log(worker);
 
-            console.log(await sendAndReceiveResponse(worker, {
-                context: {},
-                python: 'a = 5'
-            }));
-            console.log(await sendAndReceiveResponse(worker, {
-                context: {},
-                python: 'a'
-            }));
+            worker.addEventListener('message', (e) => {
+                console.log(e.data);
+            });
+
+            worker.postMessage({ id: 1, python: 'a = 5' });
+            worker.postMessage({ id: 2, python: 'a' });
+            worker.postMessage({ id: 3, python: 'print(a)' });
+            worker.postMessage({ id: 4, python: '7' });
+            worker.postMessage({ id: 4.5, python: 'import numpy as np\nimport matplotlib.pyplot as plt\nx = np.linspace(0, 10, 1000)\nplt.plot(x, np.sin(x));' });
+            worker.postMessage({ id: 5, python: 'print(9)' });
         }
 
         void loadPyodide();
