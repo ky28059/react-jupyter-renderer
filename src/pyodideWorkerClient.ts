@@ -1,22 +1,14 @@
 let lastId = 1;
-function getId() {
+export function getId() {
     return lastId++;
 }
 
-// Implementation based on https://pyodide.org/en/stable/usage/webworker.html
-export async function sendAndReceiveResponse(worker: Worker, message: any) {
-    return new Promise<any>((res) => {
-        const currId = getId();
-
-        // Listen for the next message that matches the current ID
+export async function receiveType(worker: Worker, type: string) {
+    return new Promise<void>((res) => {
         worker.addEventListener('message', function listener(e) {
-            if (e.data.id !== currId) return;
-
+            if (e.data.output_type !== type) return;
             worker.removeEventListener('message', listener);
-            const { id, ...rest } = e.data;
-            res(rest);
-        });
-
-        worker.postMessage({ id: currId, ...message });
+            res();
+        })
     })
 }

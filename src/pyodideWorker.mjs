@@ -75,6 +75,10 @@ class PyodideWorker {
         this.stderr_stream = globals.get('pyodide_kernel').stderr_stream.copy();
         this.interpreter = this.kernel.interpreter.copy();
         // this.interpreter.send_comm = this.sendComm.bind(this);
+
+        self.postMessage({
+            output_type: 'ready'
+        });
     }
 
     mapToObject(obj) {
@@ -103,7 +107,7 @@ class PyodideWorker {
         const publishExecutionResult = (prompt_count, data, metadata) => {
             self.postMessage({
                 id,
-                type: 'execute_result',
+                output_type: 'execute_result',
                 execution_count: prompt_count,
                 data: this.formatResult(data),
                 metadata: this.formatResult(metadata),
@@ -113,7 +117,7 @@ class PyodideWorker {
         const publishExecutionError = (ename, evalue, traceback) => {
             self.postMessage({
                 id,
-                type: 'execute_error',
+                output_type: 'execute_error',
                 ename: ename,
                 evalue: evalue,
                 traceback: traceback,
@@ -123,7 +127,7 @@ class PyodideWorker {
         const clearOutputCallback = (wait) => {
             self.postMessage({
                 id,
-                type: 'clear_output',
+                output_type: 'clear_output',
                 wait: this.formatResult(wait),
             });
         };
@@ -131,7 +135,7 @@ class PyodideWorker {
         const displayDataCallback = (data, metadata, transient) => {
             self.postMessage({
                 id,
-                type: 'display_data',
+                output_type: 'display_data',
                 data: this.formatResult(data),
                 metadata: this.formatResult(metadata),
                 transient: this.formatResult(transient),
@@ -141,7 +145,7 @@ class PyodideWorker {
         const updateDisplayDataCallback = (data, metadata, transient) => {
             self.postMessage({
                 id,
-                type: 'update_display_data',
+                output_type: 'update_display_data',
                 data: this.formatResult(data),
                 metadata: this.formatResult(metadata),
                 transient: this.formatResult(transient),
@@ -151,7 +155,7 @@ class PyodideWorker {
         const publishStreamCallback = (name, text) => {
             self.postMessage({
                 id,
-                type: 'stream',
+                output_type: 'stream',
                 name: this.formatResult(name),
                 text: this.formatResult(text),
             });
@@ -175,7 +179,7 @@ class PyodideWorker {
 
         self.postMessage({
             id,
-            type: 'done'
+            output_type: 'done'
         })
 
         await this.executeLock.release();

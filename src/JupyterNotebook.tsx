@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import PyodideWorker from './pyodideWorker.mjs?worker&inline';
 
 // Components
@@ -8,7 +8,8 @@ import JupyterNotebookCodeCell from './JupyterNotebookCodeCell';
 import JupyterNotebookMarkdownCell from './JupyterNotebookMarkdownCell';
 
 // Utils
-import type { Notebook } from './types.ts';
+import { CodeCellOutput, Notebook } from './types';
+import { getId, receiveType } from './pyodideWorkerClient';
 
 
 type JupyterNotebookProps = {
@@ -22,27 +23,48 @@ type JupyterNotebookProps = {
 }
 
 export default function JupyterNotebook(props: JupyterNotebookProps) {
-    const [/* pyodide */, /* setPyodide */] = useState<null>(null);
+    const [worker, setWorker] = useState<Worker | null>(null);
+    const [ready, setReady] = useState(false);
 
     useEffect(() => {
         async function loadPyodide() {
             const worker = new PyodideWorker();
-            console.log(worker);
+            setWorker(worker);
 
+            // TODO: for debugging, remove this
             worker.addEventListener('message', (e) => {
                 console.log(e.data);
             });
 
-            worker.postMessage({ id: 1, python: 'a = 5' });
-            worker.postMessage({ id: 2, python: 'a' });
-            worker.postMessage({ id: 3, python: 'print(a)' });
-            worker.postMessage({ id: 4, python: '7' });
-            worker.postMessage({ id: 4.5, python: 'import numpy as np\nimport matplotlib.pyplot as plt\nx = np.linspace(0, 10, 1000)\nplt.plot(x, np.sin(x));' });
-            worker.postMessage({ id: 5, python: 'print(9)' });
+            await receiveType(worker, 'ready');
+            setReady(true);
         }
 
         void loadPyodide();
     }, []);
+
+    const executePython = useCallback((code: string, callback: (message: CodeCellOutput) => void) => {
+        if (!worker) return;
+
+        const currId = getId();
+
+        // Listen for messages that match the current ID
+        worker.addEventListener('message', function listener(e) {
+            if (e.data.id !== currId) return;
+
+            // No more messages will be sent; remove the listener and allow requests again
+            if (e.data.output_type === 'done') {
+                setReady(true);
+                return worker.removeEventListener('message', listener);
+            }
+
+            const { id, ...rest } = e.data;
+            callback(rest as CodeCellOutput);
+        });
+
+        setReady(false);
+        worker.postMessage({ id: currId, python: code });
+    }, [worker]);
 
     return (
         <div
@@ -53,6 +75,8 @@ export default function JupyterNotebook(props: JupyterNotebookProps) {
                 if (cell.cell_type === 'code') return (
                     <JupyterNotebookCodeCell
                         cell={cell}
+                        ready={ready}
+                        executePython={executePython}
                         codeEditorClassName={props.codeEditorClassName}
                         streamOutputClassName={props.streamOutputClassName}
                         errorOutputClassName={props.errorOutputClassName}

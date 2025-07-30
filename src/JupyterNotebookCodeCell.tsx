@@ -9,6 +9,9 @@ import type { CodeCell, CodeCellOutput as CodeCellOutputData } from './types.ts'
 type JupyterNotebookCodeCellProps = {
     cell: CodeCell,
 
+    ready: boolean,
+    executePython: (code: string, callback: (message: CodeCellOutputData) => void) => void,
+
     codeEditorClassName?: string,
     streamOutputClassName?: string,
     errorOutputClassName?: string,
@@ -19,17 +22,20 @@ export default function JupyterNotebookCodeCell(props: JupyterNotebookCodeCellPr
 
     return (
         <div style={{ display: 'flex', gap: '0.5rem', position: 'relative', paddingLeft: '4rem' }}>
-            <div
+            <button
                 style={{
                     fontFamily: 'monospace',
                     position: 'absolute',
                     left: 0,
                     width: '3.5rem',
-                    textAlign: 'right'
+                    textAlign: 'right',
+                    opacity: props.ready ? 1 : 0.5
                 }}
+                disabled={!props.ready}
+                onClick={() => props.executePython(code, () => {})}
             >
                 [{props.cell.execution_count ?? ' '}]:
-            </div>
+            </button>
             <div style={{ width: '100%' }}>
                 <Editor
                     value={code}
