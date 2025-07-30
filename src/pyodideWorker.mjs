@@ -11,9 +11,40 @@ const pipliteUrls = [
 ]
 
 
+// Simple JS lock, based on https://jackpordi.com/posts/locks-in-js-because-why-not
+class Lock {
+    acquired = false;
+    queue = [];
+
+    async acquire() {
+        if (!this.acquired) {
+            this.acquired = true;
+        } else {
+            return new Promise((resolve, _) => {
+                this.queue.push(resolve);
+            });
+        }
+    }
+
+    async release() {
+        if (this.queue.length === 0 && this.acquired) {
+            this.acquired = false;
+            return;
+        }
+
+        const continuation = this.queue.shift();
+        return new Promise((res) => {
+            continuation();
+            res();
+        });
+    }
+}
+
+
 class PyodideWorker {
     constructor() {
         this.initialized = this.initialize();
+        this.executeLock = new Lock();
     }
 
     async initialize() {
@@ -66,6 +97,7 @@ class PyodideWorker {
 
     async execute(id, content) {
         // TODO?
+        await this.executeLock.acquire();
         await this.pyodide.loadPackagesFromImports(content);
 
         const publishExecutionResult = (prompt_count, data, metadata) => {
@@ -141,6 +173,12 @@ class PyodideWorker {
             publishExecutionError(results['ename'], results['evalue'], results['traceback']);
         }
 
+        self.postMessage({
+            id,
+            type: 'done'
+        })
+
+        await this.executeLock.release();
         return results;
     }
 }
