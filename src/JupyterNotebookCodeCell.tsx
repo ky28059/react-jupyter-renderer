@@ -11,6 +11,8 @@ type JupyterNotebookCodeCellProps = {
 
     ready: boolean,
     executePython: (code: string, callback: (message: CodeCellOutputData) => void) => void,
+    currentCount: number,
+    setCurrentCount: (c: number) => void,
 
     codeEditorClassName?: string,
     streamOutputClassName?: string,
@@ -19,6 +21,16 @@ type JupyterNotebookCodeCellProps = {
 
 export default function JupyterNotebookCodeCell(props: JupyterNotebookCodeCellProps) {
     const [code, setCode] = useState(Array.isArray(props.cell.source) ? props.cell.source.join('') : props.cell.source);
+
+    const [count, setCount] = useState(props.cell.execution_count);
+
+    // Run the code in this cell by updating the execution count and sending the code
+    // content to the Pyodide worker.
+    function execute() {
+        setCount(props.currentCount);
+        props.setCurrentCount(props.currentCount + 1);
+        props.executePython(code, () => {}); // TODO
+    }
 
     return (
         <div style={{ display: 'flex', gap: '0.5rem', position: 'relative', paddingLeft: '4rem' }}>
@@ -32,9 +44,9 @@ export default function JupyterNotebookCodeCell(props: JupyterNotebookCodeCellPr
                     opacity: props.ready ? 1 : 0.5
                 }}
                 disabled={!props.ready}
-                onClick={() => props.executePython(code, () => {})}
+                onClick={execute}
             >
-                [{props.cell.execution_count ?? ' '}]:
+                [{count ?? ' '}]:
             </button>
             <div style={{ width: '100%' }}>
                 <Editor

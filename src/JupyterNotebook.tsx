@@ -26,6 +26,8 @@ export default function JupyterNotebook(props: JupyterNotebookProps) {
     const [worker, setWorker] = useState<Worker | null>(null);
     const [ready, setReady] = useState(false);
 
+    const [currentCount, setCurrentCount] = useState(1);
+
     useEffect(() => {
         async function loadPyodide() {
             const worker = new PyodideWorker();
@@ -77,6 +79,8 @@ export default function JupyterNotebook(props: JupyterNotebookProps) {
                         cell={cell}
                         ready={ready}
                         executePython={executePython}
+                        currentCount={currentCount}
+                        setCurrentCount={setCurrentCount}
                         codeEditorClassName={props.codeEditorClassName}
                         streamOutputClassName={props.streamOutputClassName}
                         errorOutputClassName={props.errorOutputClassName}
