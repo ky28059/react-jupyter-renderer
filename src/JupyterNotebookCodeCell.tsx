@@ -19,6 +19,7 @@ type JupyterNotebookCodeCellProps = {
     setCurrentCount: (c: number) => void,
 
     codeCellClassName?: string,
+    executionCountClassName?: string,
     codeEditorClassName?: string,
     streamOutputClassName?: string,
     errorOutputClassName?: string,
@@ -66,7 +67,10 @@ export default function JupyterNotebookCodeCell(props: JupyterNotebookCodeCellPr
                     opacity: props.ready ? 1 : 0.5
                 }}
             >
-                <p style={{ fontFamily: 'monospace', textAlign: 'right' }}>
+                <p
+                    style={{ textAlign: 'right' }}
+                    className={props.executionCountClassName}
+                >
                     [{count ?? ' '}]:
                 </p>
                 <button

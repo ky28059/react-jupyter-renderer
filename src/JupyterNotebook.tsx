@@ -18,6 +18,7 @@ type JupyterNotebookProps = {
     wrapperClassName?: string,
     markdownClassName?: string,
     codeCellClassName?: string,
+    executionCountClassName?: string,
     codeEditorClassName?: string,
     streamOutputClassName?: string,
     errorOutputClassName?: string,
@@ -88,6 +89,7 @@ export default function JupyterNotebook(props: JupyterNotebookProps) {
                         currentCount={currentCount}
                         setCurrentCount={setCurrentCount}
                         codeCellClassName={props.codeCellClassName}
+                        executionCountClassName={props.executionCountClassName}
                         codeEditorClassName={props.codeEditorClassName}
                         streamOutputClassName={props.streamOutputClassName}
                         errorOutputClassName={props.errorOutputClassName}
