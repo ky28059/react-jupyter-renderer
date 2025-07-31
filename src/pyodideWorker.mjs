@@ -117,7 +117,7 @@ class PyodideWorker {
         const publishExecutionError = (ename, evalue, traceback) => {
             self.postMessage({
                 id,
-                output_type: 'execute_error',
+                output_type: 'error',
                 ename: ename,
                 evalue: evalue,
                 traceback: traceback,

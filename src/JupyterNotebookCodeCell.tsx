@@ -22,6 +22,7 @@ type JupyterNotebookCodeCellProps = {
 export default function JupyterNotebookCodeCell(props: JupyterNotebookCodeCellProps) {
     const [code, setCode] = useState(Array.isArray(props.cell.source) ? props.cell.source.join('') : props.cell.source);
 
+    const [outputs, setOutputs] = useState(props.cell.outputs);
     const [count, setCount] = useState(props.cell.execution_count);
 
     // Run the code in this cell by updating the execution count and sending the code
@@ -29,7 +30,11 @@ export default function JupyterNotebookCodeCell(props: JupyterNotebookCodeCellPr
     function execute() {
         setCount(props.currentCount);
         props.setCurrentCount(props.currentCount + 1);
-        props.executePython(code, () => {}); // TODO
+
+        setOutputs([]);
+        props.executePython(code, (e) => {
+            setOutputs((o) => [...o, e]);
+        }); // TODO?
     }
 
     return (
@@ -65,12 +70,12 @@ export default function JupyterNotebookCodeCell(props: JupyterNotebookCodeCellPr
                     {code}
                 </Editor>
 
-                {props.cell.outputs.map((output, i) => (
+                {outputs.map((output, i) => (
                     <CodeCellOutput
                         output={output}
                         streamOutputClassName={props.streamOutputClassName}
                         errorOutputClassName={props.errorOutputClassName}
-                        key={i}
+                        key={JSON.stringify(output) + i}
                     />
                 ))}
             </div>
