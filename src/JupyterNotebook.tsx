@@ -17,15 +17,18 @@ type JupyterNotebookProps = {
 
     wrapperClassName?: string,
     markdownClassName?: string,
+    codeCellClassName?: string,
     codeEditorClassName?: string,
     streamOutputClassName?: string,
     errorOutputClassName?: string,
+    indicatorClassName?: string,
 }
 
 export default function JupyterNotebook(props: JupyterNotebookProps) {
     const [worker, setWorker] = useState<Worker | null>(null);
     const [ready, setReady] = useState(false);
 
+    const [focusedIndex, setFocusedIndex] = useState(-1);
     const [currentCount, setCurrentCount] = useState(1);
 
     useEffect(() => {
@@ -77,13 +80,18 @@ export default function JupyterNotebook(props: JupyterNotebookProps) {
                 if (cell.cell_type === 'code') return (
                     <JupyterNotebookCodeCell
                         cell={cell}
+                        index={i}
                         ready={ready}
                         executePython={executePython}
+                        focusedIndex={focusedIndex}
+                        setFocusedIndex={setFocusedIndex}
                         currentCount={currentCount}
                         setCurrentCount={setCurrentCount}
+                        codeCellClassName={props.codeCellClassName}
                         codeEditorClassName={props.codeEditorClassName}
                         streamOutputClassName={props.streamOutputClassName}
                         errorOutputClassName={props.errorOutputClassName}
+                        indicatorClassName={props.indicatorClassName}
                         key={i}
                     />
                 );

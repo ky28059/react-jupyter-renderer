@@ -9,15 +9,20 @@ import type { CodeCell, CodeCellOutput as CodeCellOutputData } from './types.ts'
 
 type JupyterNotebookCodeCellProps = {
     cell: CodeCell,
+    index: number,
 
     ready: boolean,
     executePython: (code: string, callback: (message: CodeCellOutputData) => void) => void,
+    focusedIndex: number,
+    setFocusedIndex: (index: number) => void,
     currentCount: number,
     setCurrentCount: (c: number) => void,
 
+    codeCellClassName?: string,
     codeEditorClassName?: string,
     streamOutputClassName?: string,
     errorOutputClassName?: string,
+    indicatorClassName?: string,
 }
 
 export default function JupyterNotebookCodeCell(props: JupyterNotebookCodeCellProps) {
@@ -29,6 +34,8 @@ export default function JupyterNotebookCodeCell(props: JupyterNotebookCodeCellPr
     // Run the code in this cell by updating the execution count and sending the code
     // content to the Pyodide worker.
     function execute() {
+        props.setFocusedIndex(props.index);
+
         setCount(props.currentCount);
         props.setCurrentCount(props.currentCount + 1);
 
@@ -39,21 +46,36 @@ export default function JupyterNotebookCodeCell(props: JupyterNotebookCodeCellPr
     }
 
     return (
-        <div style={{ display: 'flex', gap: '0.5rem', position: 'relative', paddingLeft: '4rem' }}>
-            <button
+        <div
+            style={{ display: 'flex', gap: '0.5rem', position: 'relative', paddingLeft: '4rem' }}
+            className={props.codeCellClassName}
+            data-active={props.focusedIndex === props.index || undefined}
+        >
+            {props.indicatorClassName && (
+                <div className={props.indicatorClassName} />
+            )}
+
+            <div
                 style={{
-                    fontFamily: 'monospace',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: '0.25rem',
                     position: 'absolute',
                     left: 0,
                     width: '3.5rem',
-                    textAlign: 'right',
                     opacity: props.ready ? 1 : 0.5
                 }}
-                disabled={!props.ready}
-                onClick={execute}
             >
-                [{count ?? ' '}]:
-            </button>
+                <p style={{ fontFamily: 'monospace', textAlign: 'right' }}>
+                    [{count ?? ' '}]:
+                </p>
+                <button
+                    disabled={!props.ready}
+                    onClick={execute}
+                >
+                    ▶
+                </button>
+            </div>
             <div style={{ width: '100%' }}>
                 <Editor
                     value={code}
@@ -67,6 +89,7 @@ export default function JupyterNotebookCodeCell(props: JupyterNotebookCodeCellPr
                     }}
                     style={{ fontFamily: '"Fira code", "Fira Mono", monospace' }}
                     className={props.codeEditorClassName}
+                    onFocus={() => props.setFocusedIndex(props.index)}
                 >
                     {code}
                 </Editor>
