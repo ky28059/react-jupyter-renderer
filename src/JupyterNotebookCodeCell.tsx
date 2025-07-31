@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import Editor from 'react-simple-code-editor';
+import Anser from 'anser';
 import { highlight, languages } from 'prismjs';
 import 'prismjs/components/prism-python';
 
@@ -100,11 +101,15 @@ function CodeCellOutput(props: CodeCellOutputProps) {
         </pre>
     )
 
-    if (props.output.output_type === 'error') return (
-        <pre className={props.errorOutputClassName}>
-            {props.output.traceback.join('')}
-        </pre>
-    )
+    if (props.output.output_type === 'error') {
+        const output = props.output.traceback.join('\n');
+        return (
+            <pre
+                className={props.errorOutputClassName}
+                dangerouslySetInnerHTML={{ __html: Anser.ansiToHtml(output) }}
+            />
+        )
+    }
 
     if (props.output.output_type === 'execute_result' || props.output.output_type === 'display_data') {
         const mimes = props.output.data;
