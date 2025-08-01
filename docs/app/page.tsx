@@ -18,6 +18,7 @@ export default function Home() {
                 markdownClassName="markdown mb-4"
                 codeCellClassName="group my-2"
                 executionCountClassName="font-mono group-data-active:text-sky-600 group-data-edited:text-orange-400!"
+                runButtonClassName="cursor-pointer text-right px-1"
                 codeEditorClassName="border border-black/10 bg-[rgb(245_245_245)]"
                 streamOutputClassName="mt-2 px-2 py-1 overflow-x-auto"
                 errorOutputClassName="mt-2 px-2 py-1 overflow-x-auto bg-red-500/20"

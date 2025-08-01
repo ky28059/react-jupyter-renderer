@@ -20,6 +20,7 @@ type JupyterNotebookCodeCellProps = {
 
     codeCellClassName?: string,
     executionCountClassName?: string,
+    runButtonClassName?: string,
     codeEditorClassName?: string,
     streamOutputClassName?: string,
     errorOutputClassName?: string,
@@ -65,7 +66,6 @@ export default function JupyterNotebookCodeCell(props: JupyterNotebookCodeCellPr
                 style={{
                     display: 'flex',
                     flexDirection: 'column',
-                    gap: '0.125rem',
                     position: 'absolute',
                     left: 0,
                     width: '3.5rem',
@@ -79,6 +79,7 @@ export default function JupyterNotebookCodeCell(props: JupyterNotebookCodeCellPr
                     {edited && '•'}[{count ?? ' '}]:
                 </p>
                 <button
+                    className={props.runButtonClassName}
                     disabled={!props.ready}
                     onClick={execute}
                 >

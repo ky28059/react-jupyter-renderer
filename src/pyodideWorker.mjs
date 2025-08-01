@@ -62,7 +62,7 @@ class PyodideWorker {
         `);
 
         const scriptLines = [];
-        for (const pkg of [/* 'ssl', 'sqlite3', */ 'ipykernel', 'comm', 'pyodide_kernel']) {
+        for (const pkg of [/* 'ssl', 'sqlite3', */ 'ipykernel', 'comm', 'pyodide_kernel', 'ipywidgets']) {
             scriptLines.push(`await piplite.install('${pkg}', keep_going=True)`);
         }
 

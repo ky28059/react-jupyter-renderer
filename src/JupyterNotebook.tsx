@@ -19,6 +19,7 @@ type JupyterNotebookProps = {
     markdownClassName?: string,
     codeCellClassName?: string,
     executionCountClassName?: string,
+    runButtonClassName?: string,
     codeEditorClassName?: string,
     streamOutputClassName?: string,
     errorOutputClassName?: string,
@@ -80,6 +81,7 @@ export default function JupyterNotebook(props: JupyterNotebookProps) {
             {props.notebook.cells.map((cell, i) => {
                 if (cell.cell_type === 'code') return (
                     <JupyterNotebookCodeCell
+                        key={i}
                         cell={cell}
                         index={i}
                         ready={ready}
@@ -88,13 +90,14 @@ export default function JupyterNotebook(props: JupyterNotebookProps) {
                         setFocusedIndex={setFocusedIndex}
                         currentCount={currentCount}
                         setCurrentCount={setCurrentCount}
+
                         codeCellClassName={props.codeCellClassName}
                         executionCountClassName={props.executionCountClassName}
+                        runButtonClassName={props.runButtonClassName}
                         codeEditorClassName={props.codeEditorClassName}
                         streamOutputClassName={props.streamOutputClassName}
                         errorOutputClassName={props.errorOutputClassName}
                         indicatorClassName={props.indicatorClassName}
-                        key={i}
                     />
                 );
 
