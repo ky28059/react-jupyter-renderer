@@ -17,11 +17,11 @@ export default function Home() {
                 wrapperClassName="py-6 border border-black/20 rounded-lg h-[36rem] overflow-y-auto gap-4 text-sm shadow-xl"
                 markdownClassName="markdown mb-4"
                 codeCellClassName="group my-2"
-                executionCountClassName="font-mono group-data-active:text-sky-600"
+                executionCountClassName="font-mono group-data-active:text-sky-600 group-data-edited:text-orange-400!"
                 codeEditorClassName="border border-black/10 bg-[rgb(245_245_245)]"
                 streamOutputClassName="mt-2 px-2 py-1 overflow-x-auto"
                 errorOutputClassName="mt-2 px-2 py-1 overflow-x-auto bg-red-500/20"
-                indicatorClassName="hidden group-data-active:block absolute left-1 w-2 rounded-xs h-full bg-sky-600"
+                indicatorClassName="hidden group-data-active:block absolute left-1 w-2 rounded-xs h-full bg-sky-600 group-data-edited:bg-orange-400"
             />
         </main>
     );

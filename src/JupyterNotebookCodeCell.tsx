@@ -28,6 +28,7 @@ type JupyterNotebookCodeCellProps = {
 
 export default function JupyterNotebookCodeCell(props: JupyterNotebookCodeCellProps) {
     const [code, setCode] = useState(Array.isArray(props.cell.source) ? props.cell.source.join('') : props.cell.source);
+    const [prevCode, setPrevCode] = useState(code);
 
     const [outputs, setOutputs] = useState(props.cell.outputs);
     const [count, setCount] = useState(props.cell.execution_count);
@@ -35,6 +36,7 @@ export default function JupyterNotebookCodeCell(props: JupyterNotebookCodeCellPr
     // Run the code in this cell by updating the execution count and sending the code
     // content to the Pyodide worker.
     function execute() {
+        setPrevCode(code);
         props.setFocusedIndex(props.index);
 
         setCount(props.currentCount);
@@ -51,6 +53,7 @@ export default function JupyterNotebookCodeCell(props: JupyterNotebookCodeCellPr
             style={{ display: 'flex', gap: '0.5rem', position: 'relative', paddingLeft: '4rem' }}
             className={props.codeCellClassName}
             data-active={props.focusedIndex === props.index || undefined}
+            data-edited={code !== prevCode || undefined}
         >
             {props.indicatorClassName && (
                 <div className={props.indicatorClassName} />
@@ -60,7 +63,7 @@ export default function JupyterNotebookCodeCell(props: JupyterNotebookCodeCellPr
                 style={{
                     display: 'flex',
                     flexDirection: 'column',
-                    gap: '0.25rem',
+                    gap: '0.125rem',
                     position: 'absolute',
                     left: 0,
                     width: '3.5rem',
