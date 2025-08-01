@@ -2,11 +2,11 @@
 
 import { ReactNode, useState } from 'react';
 import { JupyterNotebook } from '@ky28059/react-jupyter-renderer';
-import { lorenz, matplotlib } from '@/app/notebooks';
+import { folium, lorenz, matplotlib } from '@/app/notebooks';
 
 
-const notebooks = [matplotlib, lorenz];
-const names = ['matplotlib.ipynb', 'Lorenz.ipynb']
+const notebooks = [matplotlib, lorenz, folium];
+const names = ['matplotlib.ipynb', 'Lorenz.ipynb', 'folium.ipynb'];
 
 export default function NotebookDemo() {
     const [selected, setSelected] = useState(0);

@@ -10,6 +10,7 @@ import type { CodeCell, CodeCellOutput as CodeCellOutputData } from './types.ts'
 type JupyterNotebookCodeCellProps = {
     cell: CodeCell,
     index: number,
+    trusted?: boolean,
 
     ready: boolean,
     executePython: (code: string, callback: (message: CodeCellOutputData) => void) => void,
@@ -106,6 +107,7 @@ export default function JupyterNotebookCodeCell(props: JupyterNotebookCodeCellPr
 
                 {outputs.map((output, i) => (
                     <CodeCellOutput
+                        trusted={props.trusted}
                         output={output}
                         streamOutputClassName={props.streamOutputClassName}
                         errorOutputClassName={props.errorOutputClassName}
@@ -118,6 +120,7 @@ export default function JupyterNotebookCodeCell(props: JupyterNotebookCodeCellPr
 }
 
 type CodeCellOutputProps = {
+    trusted?: boolean,
     output: CodeCellOutputData,
     streamOutputClassName?: string,
     errorOutputClassName?: string,
@@ -145,6 +148,7 @@ function CodeCellOutput(props: CodeCellOutputProps) {
     }
 
     if (props.output.output_type === 'execute_result' || props.output.output_type === 'display_data') {
+        const trusted = props.trusted ?? true;
         const mimes = props.output.data;
 
         // Image output
@@ -152,6 +156,13 @@ function CodeCellOutput(props: CodeCellOutputProps) {
             <img
                 src={`data:image/png;base64,${mimes['image/png']}`}
                 alt={mimes['text/plain']}
+            />
+        )
+
+        // HTML output; potentially dangerous, so require `trusted` prop on parent
+        if (trusted && mimes['text/html']) return (
+            <div
+                dangerouslySetInnerHTML={{ __html: mimes['text/html'] }}
             />
         )
 

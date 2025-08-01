@@ -14,6 +14,7 @@ import { getId, receiveType } from './pyodideWorkerClient';
 
 type JupyterNotebookProps = {
     notebook: Notebook,
+    trusted?: boolean,
 
     wrapperClassName?: string,
     markdownClassName?: string,
@@ -82,8 +83,9 @@ export default function JupyterNotebook(props: JupyterNotebookProps) {
                 if (cell.cell_type === 'code') return (
                     <JupyterNotebookCodeCell
                         key={i}
-                        cell={cell}
                         index={i}
+                        cell={cell}
+                        trusted={props.trusted}
                         ready={ready}
                         executePython={executePython}
                         focusedIndex={focusedIndex}
