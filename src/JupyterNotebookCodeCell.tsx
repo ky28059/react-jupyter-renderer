@@ -48,12 +48,14 @@ export default function JupyterNotebookCodeCell(props: JupyterNotebookCodeCellPr
         }); // TODO?
     }
 
+    const edited = code !== prevCode;
+
     return (
         <div
             style={{ display: 'flex', gap: '0.5rem', position: 'relative', paddingLeft: '4rem' }}
             className={props.codeCellClassName}
             data-active={props.focusedIndex === props.index || undefined}
-            data-edited={code !== prevCode || undefined}
+            data-edited={edited || undefined}
         >
             {props.indicatorClassName && (
                 <div className={props.indicatorClassName} />
@@ -74,7 +76,7 @@ export default function JupyterNotebookCodeCell(props: JupyterNotebookCodeCellPr
                     style={{ textAlign: 'right' }}
                     className={props.executionCountClassName}
                 >
-                    [{count ?? ' '}]:
+                    {edited && '•'}[{count ?? ' '}]:
                 </p>
                 <button
                     disabled={!props.ready}
