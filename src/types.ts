@@ -1,47 +1,43 @@
 export type Notebook = {
-    metadata: NotebookMetadata,
+    metadata: Record<string, any>,
     nbformat: number,
     nbformat_minor: number,
     cells: NotebookCell[]
 }
 
-type NotebookMetadata = { // TODO: verify these
-    kernel_info?: {
-        name: string
-    },
-    language_info?: {
-        name: string,
-        version?: string,
-        file_extension?: string,
-        codemirror_mode?: {
-            name: string,
-            version: string | number,
-        },
-        mimetype?: string,
-        nbconvert_exporter?: string,
-        pygments_lexer?: string
-    }
-}
+// type NotebookMetadata = {
+//     kernel_info?: {
+//         name: string
+//     },
+//     language_info?: {
+//         name: string,
+//         version?: string,
+//         file_extension?: string,
+//         codemirror_mode?: {
+//             name: string,
+//             version: string | number,
+//         },
+//         mimetype?: string,
+//         nbconvert_exporter?: string,
+//         pygments_lexer?: string
+//     }
+// }
 
 export type NotebookCell = MarkdownCell | CodeCell | RawCell;
 
 interface BaseCell {
-    id: string,
+    id?: string,
     source: string | string[],
+    metadata: Record<string, any>
 }
 
 export interface MarkdownCell extends BaseCell {
     cell_type: 'markdown',
-    metadata: {},
     attachments?: Record<string, Record<string, string>>
 }
 
 export interface CodeCell extends BaseCell {
     cell_type: 'code',
-    metadata: { // TODO
-        collapsed?: boolean,
-        scrolled?: boolean | 'auto',
-    },
     execution_count: number | null,
     outputs: CodeCellOutput[]
 }
@@ -98,8 +94,5 @@ type CodeCellErrorOutput = {
 }
 
 interface RawCell extends BaseCell {
-    cell_type: 'raw',
-    metadata: {
-        format: string
-    }
+    cell_type: 'raw'
 }
