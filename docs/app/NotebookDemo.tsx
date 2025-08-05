@@ -3,6 +3,8 @@
 import { ReactNode, useState } from 'react';
 import { JupyterNotebook } from '@ky28059/react-jupyter-renderer';
 import { folium, lorenz, matplotlib } from '@/app/notebooks';
+import remarkMath from 'remark-math';
+import rehypeKatex from 'rehype-katex';
 
 
 const notebooks = [matplotlib, lorenz, folium];
@@ -29,6 +31,8 @@ export default function NotebookDemo() {
                 <JupyterNotebook
                     key={i}
                     notebook={notebook}
+                    remarkPlugins={[remarkMath]}
+                    rehypePlugins={[rehypeKatex]}
                     wrapperClassName={'py-6 h-[36rem] overflow-y-auto gap-4 text-sm' + (selected !== i ? ' hidden' : '')}
                     markdownClassName="markdown mb-4"
                     codeCellClassName="group my-2"

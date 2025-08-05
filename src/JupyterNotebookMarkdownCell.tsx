@@ -1,12 +1,13 @@
-import type { MarkdownCell } from './types.ts';
+import type { MarkdownCell } from './types';
+import type { Pluggable } from 'unified';
 import Markdown from 'react-markdown';
-// import remarkMath from 'remark-math';
-// import rehypeKatex from 'rehype-katex';
 
 
 type JupyterNotebookMarkdownCellProps = {
     cell: MarkdownCell,
     markdownClassName?: string,
+    remarkPlugins?: Pluggable[],
+    rehypePlugins?: Pluggable[]
 }
 
 export default function JupyterNotebookMarkdownCell(props: JupyterNotebookMarkdownCellProps) {
@@ -18,8 +19,8 @@ export default function JupyterNotebookMarkdownCell(props: JupyterNotebookMarkdo
             className={props.markdownClassName}
         >
             <Markdown
-                // remarkPlugins={[remarkMath]}
-                // rehypePlugins={[rehypeKatex]}
+                remarkPlugins={props.remarkPlugins}
+                rehypePlugins={props.rehypePlugins}
             >
                 {source}
             </Markdown>

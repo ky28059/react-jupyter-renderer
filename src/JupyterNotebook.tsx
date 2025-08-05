@@ -2,19 +2,23 @@
 
 import { useCallback, useEffect, useState } from 'react';
 import PyodideWorker from './pyodideWorker.mjs?worker&inline';
+import type { Pluggable } from 'unified';
 
 // Components
 import JupyterNotebookCodeCell from './JupyterNotebookCodeCell';
 import JupyterNotebookMarkdownCell from './JupyterNotebookMarkdownCell';
 
 // Utils
-import { CodeCellOutput, Notebook } from './types';
+import type { CodeCellOutput, Notebook } from './types';
 import { getId, receiveType } from './pyodideWorkerClient';
 
 
 type JupyterNotebookProps = {
     notebook: Notebook,
     trusted?: boolean,
+
+    remarkPlugins?: Pluggable[],
+    rehypePlugins?: Pluggable[]
 
     wrapperClassName?: string,
     markdownClassName?: string,
@@ -106,6 +110,8 @@ export default function JupyterNotebook(props: JupyterNotebookProps) {
                 if (cell.cell_type === 'markdown') return (
                     <JupyterNotebookMarkdownCell
                         cell={cell}
+                        remarkPlugins={props.remarkPlugins}
+                        rehypePlugins={props.rehypePlugins}
                         markdownClassName={props.markdownClassName}
                         key={i}
                     />
