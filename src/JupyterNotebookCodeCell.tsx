@@ -1,10 +1,13 @@
 import { useState } from 'react';
 import Editor from 'react-simple-code-editor';
-import Anser from 'anser';
 import { highlight, languages } from 'prismjs';
 import 'prismjs/components/prism-python';
 
-import type { CodeCell, CodeCellOutput as CodeCellOutputData } from './types.ts';
+// Components
+import Ansi from './Ansi';
+
+// Utils
+import type { CodeCell, CodeCellOutput as CodeCellOutputData } from './types';
 
 
 type JupyterNotebookCodeCellProps = {
@@ -140,10 +143,9 @@ function CodeCellOutput(props: CodeCellOutputProps) {
     if (props.output.output_type === 'error') {
         const output = props.output.traceback.join('\n');
         return (
-            <pre
-                className={props.errorOutputClassName}
-                dangerouslySetInnerHTML={{ __html: Anser.ansiToHtml(output) }}
-            />
+            <Ansi className={props.errorOutputClassName}>
+                {output}
+            </Ansi>
         )
     }
 
