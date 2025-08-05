@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { memo, useState } from 'react';
 import Editor from 'react-simple-code-editor';
 import { highlight, languages } from 'prismjs';
 import 'prismjs/components/prism-python';
@@ -109,7 +109,7 @@ export default function JupyterNotebookCodeCell(props: JupyterNotebookCodeCellPr
                 </Editor>
 
                 {outputs.map((output, i) => (
-                    <CodeCellOutput
+                    <MemoizedCodeCellOutput
                         trusted={props.trusted}
                         output={output}
                         streamOutputClassName={props.streamOutputClassName}
@@ -180,3 +180,5 @@ function CodeCellOutput(props: CodeCellOutputProps) {
 
     return null;
 }
+
+const MemoizedCodeCellOutput = memo(CodeCellOutput);
