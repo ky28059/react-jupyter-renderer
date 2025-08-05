@@ -7,8 +7,8 @@ import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
 
 
-const notebooks = [matplotlib, lorenz, folium];
-const names = ['matplotlib.ipynb', 'Lorenz.ipynb', 'folium.ipynb'];
+const notebooks = [lorenz, matplotlib, folium];
+const names = ['Lorenz.ipynb', 'matplotlib.ipynb', 'folium.ipynb'];
 
 export default function NotebookDemo() {
     const [selected, setSelected] = useState(0);
