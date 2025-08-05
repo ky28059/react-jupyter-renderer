@@ -9,7 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@ky28059/react-jupyter-renderer": "file:..",
+    "@ky28059/react-jupyter-renderer": "^1.0.0",
     "katex": "^0.16.22",
     "next": "^15.4.2",
     "react": "19.1.0",
