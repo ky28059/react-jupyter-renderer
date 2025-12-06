@@ -36,17 +36,11 @@ export const lorenz: Notebook = {
         },
         {
             "cell_type": "code",
-            "source": "import numpy as np\nfrom matplotlib import pyplot as plt\nfrom scipy import integrate\n\nfrom ipywidgets import interactive",
+            "source": "import numpy as np\nfrom matplotlib import pyplot as plt\nfrom scipy import integrate",
             "metadata": {
                 "trusted": true
             },
-            "outputs": [
-                {
-                    "name": "stderr",
-                    "output_type": "stream",
-                    "text": "Matplotlib is building the font cache; this may take a moment.\n/tmp/xpython_42/1599083861.py:3: UserWarning: A NumPy version >=1.23.5 and <2.3.0 is required for this version of SciPy (detected version 2.3.1)\n  from scipy import integrate\n"
-                }
-            ],
+            "outputs": [],
             "execution_count": 2
         },
         {
@@ -222,13 +216,7 @@ export const matplotlib: Notebook = {
             "metadata": {
                 "trusted": true
             },
-            "outputs": [
-                {
-                    "name": "stderr",
-                    "output_type": "stream",
-                    "text": "Matplotlib is building the font cache; this may take a moment.\n"
-                }
-            ],
+            "outputs": [],
             "execution_count": 1
         },
         {
