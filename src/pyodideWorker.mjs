@@ -1,9 +1,9 @@
-import { loadPyodide } from "https://cdn.jsdelivr.net/pyodide/v0.27.6/full/pyodide.mjs";
+import { loadPyodide } from "https://cdn.jsdelivr.net/pyodide/v0.29.0/full/pyodide.mjs";
 
 
-const pipliteWheelUrl = 'https://jupyter.org/try-jupyter/extensions/@jupyterlite/pyodide-kernel-extension/static/pypi/piplite-0.6.0-py3-none-any.whl'
+const pipliteWheelUrl = 'https://jupyter.org/try-jupyter/extensions/@jupyterlite/pyodide-kernel-extension/static/pypi/piplite-0.7.0-py3-none-any.whl'
 const pipliteUrls = [
-    'https://jupyter.org/try-jupyter/extensions/@jupyterlite/pyodide-kernel-extension/static/pypi/all.json'
+    'https://jupyter.org/try-jupyter/extensions/@jupyterlite/pyodide-kernel-extension/static/pypi/all.json',
     // 'https://jupyter.org/try-jupyter/extensions/@jupyterlite/pyodide-kernel-extension/static/pypi/ipykernel-6.9.2-py3-none-any.whl',
     // 'https://jupyter.org/try-jupyter/extensions/@jupyterlite/pyodide-kernel-extension/static/pypi/pyodide_kernel-0.6.0-py3-none-any.whl',
     // 'https://jupyter.org/try-jupyter/extensions/@jupyterlite/pyodide-kernel-extension/static/pypi/widgetsnbextension-3.6.999-py3-none-any.whl',
@@ -50,7 +50,7 @@ class PyodideWorker {
     async initialize() {
         this.pyodide = await loadPyodide();
 
-        await this.pyodide.loadPackage(['micropip', 'jedi', 'ipython']);
+        await this.pyodide.loadPackage(['micropip']);
         await this.pyodide.runPythonAsync(`
             import micropip
             await micropip.install('${pipliteWheelUrl}', keep_going=True)
@@ -62,7 +62,7 @@ class PyodideWorker {
         `);
 
         const scriptLines = [];
-        for (const pkg of [/* 'ssl', 'sqlite3', */ 'ipykernel', 'comm', 'pyodide_kernel', 'ipywidgets']) {
+        for (const pkg of ["sqlite3", "ipykernel", "comm", "pyodide_kernel", "jedi", "ipython"]) {
             scriptLines.push(`await piplite.install('${pkg}', keep_going=True)`);
         }
 
@@ -83,11 +83,13 @@ class PyodideWorker {
 
     mapToObject(obj) {
         const out = obj instanceof Array ? [] : {};
-        obj.forEach((value, key) => {
+        const entries = obj instanceof Map ? obj.entries() : Object.entries(obj);
+
+        for (const [key, value] of entries) {
             out[key] = value instanceof Map || value instanceof Array
                 ? this.mapToObject(value)
                 : value;
-        });
+        }
         return out;
     }
 
