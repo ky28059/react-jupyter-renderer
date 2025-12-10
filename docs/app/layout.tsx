@@ -18,7 +18,10 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-    title: "React Jupyter renderer",
+    title: {
+        template: '%s | React Jupyter renderer',
+        default: 'React Jupyter renderer'
+    },
     description: "A fully-interactive Jupyter notebook renderer in React based on Pyodide and the JupyterLite project.",
 };
 

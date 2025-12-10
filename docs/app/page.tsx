@@ -7,7 +7,7 @@ import SyntaxHighlighter from '@/components/SyntaxHighlighter';
 
 export default function Home() {
     return (
-        <main className="container py-20 px-16 mx-auto">
+        <main className="container py-20 mx-auto">
             <h1 className="-ml-2 text-4xl font-bold mb-3">
                 @ky28059/react-jupyter-renderer
             </h1>
