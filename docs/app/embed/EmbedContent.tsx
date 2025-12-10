@@ -3,8 +3,12 @@
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { JupyterNotebook, Notebook } from '@ky28059/react-jupyter-renderer';
+
+// Plugins
 import remarkMath from 'remark-math';
+import remarkGfm from 'remark-gfm';
 import rehypeKatex from 'rehype-katex';
+import rehypeRaw from 'rehype-raw';
 
 
 export default function EmbedContent() {
@@ -31,8 +35,8 @@ export default function EmbedContent() {
     ) : (
         <JupyterNotebook
             notebook={notebook}
-            remarkPlugins={[remarkMath]}
-            rehypePlugins={[rehypeKatex]}
+            remarkPlugins={[remarkMath, remarkGfm]}
+            rehypePlugins={[rehypeKatex, rehypeRaw]}
             wrapperClassName="container py-6 gap-4 text-sm"
             markdownClassName="markdown mb-4"
             codeCellClassName="group my-2"
