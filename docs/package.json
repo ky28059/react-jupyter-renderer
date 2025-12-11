@@ -8,7 +8,7 @@
     "start": "next start"
   },
   "dependencies": {
-    "@ky28059/react-jupyter-renderer": "^1.0.2",
+    "@ky28059/react-jupyter-renderer": "^1.0.3",
     "katex": "^0.16.22",
     "next": "^16.0.7",
     "react": "^19.2.1",
@@ -17,6 +17,8 @@
     "react-markdown": "^10.1.0",
     "react-syntax-highlighter": "^15.6.1",
     "rehype-katex": "^7.0.1",
+    "rehype-raw": "^7.0.0",
+    "remark-gfm": "^4.0.1",
     "remark-math": "^6.0.0"
   },
   "devDependencies": {

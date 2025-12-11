@@ -48,9 +48,25 @@ export default function JupyterNotebookCodeCell(props: JupyterNotebookCodeCellPr
         props.setCurrentCount(props.currentCount + 1);
 
         setOutputs([]);
+
+        let currStream: string | null = null;
+        let currText: string | null = null;
+
         props.executePython(code, (e) => {
-            setOutputs((o) => [...o, e]);
-        }); // TODO?
+            // For stream outputs, we need to merge new entries with previous ones if they come consecutively.
+            if (e.output_type === 'stream' && currStream === e.name) {
+                currText += e.text;
+                e.text = currText!;
+
+                setOutputs((o) => [...o.slice(0, -1), e]);
+            } else {
+                if (e.output_type === 'stream') {
+                    currStream = e.name;
+                    currText = e.text;
+                }
+                setOutputs((o) => [...o, e]);
+            }
+        });
     }
 
     const edited = code !== prevCode;
