@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { JupyterNotebook, Notebook } from '@ky28059/react-jupyter-renderer';
+import Spinner from '@/components/Spinner';
 
 // Plugins
 import remarkMath from 'remark-math';
@@ -29,8 +30,8 @@ export default function EmbedContent() {
     )
 
     return notebook === null ? (
-        <div>
-            loading ...
+        <div className="w-full h-screen flex items-center justify-center">
+            <Spinner />
         </div>
     ) : (
         <JupyterNotebook
