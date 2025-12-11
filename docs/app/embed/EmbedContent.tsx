@@ -17,19 +17,28 @@ export default function EmbedContent() {
     const url = params.get('url');
 
     const [notebook, setNotebook] = useState<Notebook | null>(null);
+    const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
         if (!url) return;
-        fetch(url).then(r => r.json()).then(d => setNotebook(d));
+        fetch(url)
+            .then(r => r.json())
+            .then(d => setNotebook(d))
+            .catch(e => setError(`Error fetching notebook: ${e}`));
     }, [url]);
 
     if (!url) return (
-        <div>
-            no notebook URL entered ...
+        <div className="w-full h-screen flex flex-col items-center justify-center">
+            <h1 className="font-bold mb-1">Jupyter Notebook embed</h1>
+            <p className="text-sm">Enter a Jupyter Notebook URL below to ...</p>
         </div>
     )
 
-    return notebook === null ? (
+    return error ? (
+        <div className="w-full h-screen bg-red-500/25 text-red-600 flex items-center justify-center text-sm">
+            {error}
+        </div>
+    ) : notebook === null ? (
         <div className="w-full h-screen flex items-center justify-center">
             <Spinner />
         </div>
