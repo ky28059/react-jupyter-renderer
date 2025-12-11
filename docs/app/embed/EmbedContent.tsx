@@ -3,6 +3,9 @@
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { JupyterNotebook, Notebook } from '@ky28059/react-jupyter-renderer';
+
+// Components
+import EmbedInput from '@/app/embed/EmbedInput';
 import Spinner from '@/components/Spinner';
 
 // Plugins
@@ -27,12 +30,7 @@ export default function EmbedContent() {
             .catch(e => setError(`Error fetching notebook: ${e}`));
     }, [url]);
 
-    if (!url) return (
-        <div className="w-full h-screen flex flex-col items-center justify-center">
-            <h1 className="font-bold mb-1">Jupyter Notebook embed</h1>
-            <p className="text-sm">Enter a Jupyter Notebook URL below to ...</p>
-        </div>
-    )
+    if (!url) return <EmbedInput />
 
     return error ? (
         <div className="w-full h-screen bg-red-500/25 text-red-600 flex items-center justify-center text-sm">
