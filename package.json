@@ -24,6 +24,7 @@
     "type": "git",
     "url": "git://github.com/ky28059/react-jupyter-renderer.git"
   },
+  "homepage": "https://react-jupyter-renderer.kevin.fish/",
   "author": "ky28059",
   "license": "MIT",
   "devDependencies": {
