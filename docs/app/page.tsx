@@ -157,6 +157,43 @@ export default function Home() {
                     </TableCell>
                 </tr>
             </PropsTable>
+
+            <LinkHeading id="alternatives" className="font-bold text-2xl mt-12 mb-3">
+                Alternatives
+            </LinkHeading>
+            <p className="mb-3">
+                If you do not need to embed editable / interactive notebook cells (i.e. you only want to render a
+                notebook statically), the following tools will likely be more lightweight:
+            </p>
+            <ul className="list-disc list-outside pl-6 mb-6">
+                <li>
+                    <ExternalLink href="https://github.com/jsvine/notebookjs">notebook.js</ExternalLink> /{' '}
+                    <ExternalLink href="https://github.com/jsvine/nbpreview">nbpreview</ExternalLink> for client-side
+                    static notebook rendering (see their preview <ExternalLink href="https://jsvine.github.io/nbpreview/">here</ExternalLink>).
+                </li>
+                <li>
+                    <ExternalLink href="https://github.com/kokes/nbviewer.js/">nbviewer.js</ExternalLink>, also for
+                    client-side static rendering.
+                </li>
+                <li>
+                    <ExternalLink href="https://nbconvert.readthedocs.io/en/latest/usage.html#convert-html">nbconvert</ExternalLink>{' '}
+                    to convert notebook files to static HTML on the server.
+                </li>
+            </ul>
+            <p className="mb-3">
+                If you do not need to embed notebooks into a custom environment (and just want to run them yourself), the
+                following tools may be more featureful:
+            </p>
+            <ul className="list-disc list-outside pl-6 mb-6">
+                <li>
+                    <ExternalLink href="https://jupyter.org/try-jupyter/lab/">JupyterLite</ExternalLink> for executing
+                    notebooks on the client side.
+                </li>
+                <li>
+                    <ExternalLink href="https://colab.research.google.com/">Google Colab</ExternalLink> for executing
+                    notebooks on the server side.
+                </li>
+            </ul>
         </main>
     );
 }
