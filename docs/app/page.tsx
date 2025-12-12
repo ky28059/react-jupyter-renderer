@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react';
+import Link from 'next/link';
 
 // Components
 import NotebookDemo from '@/app/NotebookDemo';
@@ -21,6 +22,11 @@ export default function Home() {
             </p>
 
             <NotebookDemo />
+
+            <p className="mt-6">
+                See below for documentation on using the React library, or view a hosted notebook previewer{' '}
+                <Link href="/embed" className="text-blue-600 hover:underline">here</Link> instead.
+            </p>
 
             <LinkHeading id="installing" className="font-bold text-2xl mt-12 mb-3">
                 Installing
