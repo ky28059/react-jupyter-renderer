@@ -259,6 +259,10 @@ pre.prismjs {
         box-shadow: inset 5px 0 0 #f7d87c;
         z-index: 0;
     }
+
+    .linenumber {
+        @apply box-content;
+    }
 }
 
 pre[class*="language-javascript"],
